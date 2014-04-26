@@ -18,6 +18,8 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
     public BaseScreen(Assets assets, int width, int height) {
         this.assets = assets;
+        this.height = height;
+        this.width = width;
         stage = new Stage(new StretchViewport(width, height));
     }
 

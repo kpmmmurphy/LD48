@@ -2,9 +2,11 @@ package org.intothedeep.ld48.screens;
 
 import com.badlogic.gdx.Input;
 
+import org.intothedeep.ld48.entities.Background;
 import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
+import org.intothedeep.ld48.framework.Font;
 import org.intothedeep.ld48.generators.BubbleGenerator;
 
 
@@ -13,6 +15,7 @@ import org.intothedeep.ld48.generators.BubbleGenerator;
  */
 public class GameScreen extends BaseScreen {
     private State currentState;
+    private Font font;
 
     private Diver diver;
 
@@ -82,12 +85,19 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
-
         super.show();
+
+        stage.clear();
+        stage.addActor(new Background(this));
+
+        font = new Font(assets.getTexure("fonts.main"), "Hello World");
+        font.setPosition(10, 10);
+        stage.addActor(font);
+
         diver = new Diver(this, 60);
         stage.addActor(diver);
 
-        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
+       BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
     }
 
     @Override

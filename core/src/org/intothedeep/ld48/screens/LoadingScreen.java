@@ -43,5 +43,8 @@ public class LoadingScreen extends BasicLoadingScreen {
         //BUBBLES
         loadTexture("bubble.one", "items/bubble.png");
         loadTexture("bubble.two", "items/bubble_2.png");
+
+        //FONTS
+        loadTexture("fonts.main", "fonts/retro.png");
     }
 }

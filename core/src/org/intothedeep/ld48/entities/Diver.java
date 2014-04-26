@@ -1,6 +1,6 @@
 package org.intothedeep.ld48.entities;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -18,6 +18,9 @@ public class Diver extends AnimatedImage{
     private Vector2 motion;
     private Vector2 tilt;
 
+    private float X_SPEED = 2;
+    private float Y_SPEED = 2;
+
     public Diver(BaseScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
         this.screen = screen;
@@ -30,6 +33,26 @@ public class Diver extends AnimatedImage{
     @Override
     public void act(float delta){
         super.act(delta);
+
+        //Right Border
+        if(getRight() >= (float) Gdx.graphics.getWidth()){
+            setX( Gdx.graphics.getWidth() - getWidth());
+        }
+
+        //Left border
+        if(getX() <= 0){
+            setX(0);
+        }
+
+        //Top border
+        if(getTop() >= Gdx.graphics.getHeight() ){
+            setY(Gdx.graphics.getHeight() - getHeight());
+        }
+        //Bottom border
+        if(getY() <= 0){
+            setY(0);
+        }
+
         moveBy(motion.x, motion.y);
     }
 
@@ -44,6 +67,26 @@ public class Diver extends AnimatedImage{
         TextureRegion[] regions = new TextureRegion[textureRegions.size()];
         return textureRegions.toArray(regions);
     }
+
+    public void moveUp(){
+        motion.y = Y_SPEED;
+    }
+
+    public void moveDown(){
+        motion.y = -Y_SPEED;
+    }
+
+    public void moveRight(){
+        motion.x = X_SPEED;
+    }
+
+    public void moveLeft(){
+        motion.x = -X_SPEED;
+    }
+
+
+
+
 
 
 

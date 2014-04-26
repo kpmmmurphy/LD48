@@ -1,10 +1,8 @@
 package org.intothedeep.ld48.framework;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 /**
  * Created by aidan on 26/04/14.
@@ -50,6 +48,10 @@ public abstract class AnimatedImage extends Image {
 
     public void setKeyFrames(TextureRegion... keyFrames) {
         this.keyFrames = keyFrames;
+    }
+
+    public TextureRegion getCurrentRegion(){
+        return keyFrames[currentFrame];
     }
 
     @Override

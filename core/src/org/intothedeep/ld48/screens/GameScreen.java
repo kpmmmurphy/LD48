@@ -2,10 +2,10 @@ package org.intothedeep.ld48.screens;
 
 import com.badlogic.gdx.Input;
 
-import org.intothedeep.ld48.entities.Bubble;
 import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
+import org.intothedeep.ld48.generators.BubbleGenerator;
 
 
 /**
@@ -87,8 +87,7 @@ public class GameScreen extends BaseScreen {
         diver = new Diver(this, 60);
         stage.addActor(diver);
 
-        Bubble bubble = new Bubble(this, 60);
-        stage.addActor(bubble);
+        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
     }
 
     @Override

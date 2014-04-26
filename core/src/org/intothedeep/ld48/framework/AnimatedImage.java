@@ -1,6 +1,7 @@
 package org.intothedeep.ld48.framework;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -12,20 +13,23 @@ public abstract class AnimatedImage extends Image {
     private int currentFrame;
     private float duration, timer;
     private TextureRegion[] keyFrames;
-    private TextureRegionDrawable drawable;
 
     public AnimatedImage(float duration) {
         super();
-        this.duration = duration;
+        init(duration);
     }
 
     public AnimatedImage(float duration, TextureRegion... keyFrames) {
         super(keyFrames[0]);
+        init(duration);
+        this.keyFrames = keyFrames;
+    }
+
+    private void init(float duration) {
         currentFrame = 0;
         timer = 0;
+        this.keyFrames = new TextureRegion[0];
         this.duration = duration;
-        this.keyFrames = keyFrames;
-        drawable = new TextureRegionDrawable(keyFrames[currentFrame]);
     }
 
     @Override
@@ -37,8 +41,8 @@ public abstract class AnimatedImage extends Image {
         if (timer >= duration) {
             timer = 0;
             currentFrame = (++currentFrame) % keyFrames.length;
-            drawable.setRegion((keyFrames[currentFrame]));
         }
+        System.out.println(currentFrame);
     }
 
     public TextureRegion[] getKeyFrames() {
@@ -47,5 +51,16 @@ public abstract class AnimatedImage extends Image {
 
     public void setKeyFrames(TextureRegion... keyFrames) {
         this.keyFrames = keyFrames;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        if (keyFrames.length == 0) return;
+
+        TextureRegion currentRegion = keyFrames[currentFrame];
+        setSize(currentRegion.getRegionWidth(), currentRegion.getRegionHeight());
+
+        batch.draw(currentRegion, getX(), getY(), getOriginX(), getOriginY(),
+                getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 }

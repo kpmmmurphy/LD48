@@ -33,12 +33,6 @@ public class Diver extends AnimatedImage{
         moveBy(motion.x, motion.y);
     }
 
-    @Override
-    public void draw(Batch batch, float delta){
-        super.draw(batch, delta);
-
-    }
-
     public TextureRegion[] getTextureRegions(){
         ArrayList<TextureRegion> textureRegions = new ArrayList();
         textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.one")));
@@ -46,8 +40,9 @@ public class Diver extends AnimatedImage{
         textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.three")));
         textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.four")));
         textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.five")));
-        
-        return (TextureRegion[])textureRegions.toArray();
+
+        TextureRegion[] regions = new TextureRegion[textureRegions.size()];
+        return textureRegions.toArray(regions);
     }
 
 

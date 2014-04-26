@@ -37,6 +37,8 @@ public abstract class BasicLoadingScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
+
+        System.out.println("Rendering");
         if (assetManager.update()) {
             onFinishedLoading();
         }
@@ -89,6 +91,7 @@ public abstract class BasicLoadingScreen extends BaseScreen {
         for (Resource mus : music) {
             assets.addMusic(mus.name, (Music) assetManager.get(mus.path));
         }
+        System.out.println("Loading complete");
         if (listener != null) {
             listener.onLoadingComplete();
         }

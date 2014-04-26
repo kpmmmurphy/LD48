@@ -14,7 +14,7 @@ public class LoadingScreen extends BasicLoadingScreen {
 
     @Override
     public void render(float delta) {
-        super.show();
+        super.render(delta);
     }
 
     @Override

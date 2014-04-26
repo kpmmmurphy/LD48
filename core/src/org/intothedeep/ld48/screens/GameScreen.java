@@ -80,8 +80,6 @@ public class GameScreen extends BaseScreen {
     public void show() {
         stage.clear();
         stage.addActor(new Diver(this, 60));
-        Image image = new Image(assets.getTexure("diver.one"));
-        stage.addActor(image);
         System.out.println("SHOWING++++++++++");
     }
 

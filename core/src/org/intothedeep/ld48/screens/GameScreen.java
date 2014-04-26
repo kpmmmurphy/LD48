@@ -4,12 +4,14 @@ import org.intothedeep.ld48.entities.Background;
 import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
+import org.intothedeep.ld48.framework.Font;
 
 /**
  * Created by aidan on 26/04/14.
  */
 public class GameScreen extends BaseScreen {
     private State currentState;
+    private Font font;
 
     public enum State {
         READY, PAUSED, RUNNING, OVER
@@ -77,9 +79,13 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
+        font = new Font(assets.getTexure("fonts.main"), "Hello World");
+        font.setPosition(10, 10);
+
         stage.clear();
         stage.addActor(new Background(this));
         stage.addActor(new Diver(this, 60));
+        stage.addActor(font);
         System.out.println("SHOWING++++++++++");
     }
 

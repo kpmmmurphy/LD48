@@ -1,5 +1,8 @@
 package org.intothedeep.ld48.screens;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+
+import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 
@@ -20,6 +23,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
         switch (currentState) {
             case READY:
                 updateReady();
@@ -75,6 +79,10 @@ public class GameScreen extends BaseScreen {
     @Override
     public void show() {
         stage.clear();
+        stage.addActor(new Diver(this, 60));
+        Image image = new Image(assets.getTexure("diver.one"));
+        stage.addActor(image);
+        System.out.println("SHOWING++++++++++");
     }
 
     @Override

@@ -14,6 +14,11 @@ public abstract class AnimatedImage extends Image {
     private TextureRegion[] keyFrames;
     private TextureRegionDrawable drawable;
 
+    public AnimatedImage(float duration) {
+        super();
+        this.duration = duration;
+    }
+
     public AnimatedImage(float duration, TextureRegion... keyFrames) {
         super(keyFrames[0]);
         currentFrame = 0;
@@ -34,5 +39,13 @@ public abstract class AnimatedImage extends Image {
             currentFrame = (++currentFrame) % keyFrames.length;
             drawable.setRegion((keyFrames[currentFrame]));
         }
+    }
+
+    public TextureRegion[] getKeyFrames() {
+        return keyFrames;
+    }
+
+    public void setKeyFrames(TextureRegion... keyFrames) {
+        this.keyFrames = keyFrames;
     }
 }

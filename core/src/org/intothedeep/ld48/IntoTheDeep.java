@@ -6,17 +6,23 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import org.intothedeep.ld48.framework.Assets;
+import org.intothedeep.ld48.framework.BasicLoadingScreen;
 import org.intothedeep.ld48.screens.GameScreen;
 import org.intothedeep.ld48.screens.LoadingScreen;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class IntoTheDeep extends ApplicationAdapter {
+public class IntoTheDeep extends ApplicationAdapter implements BasicLoadingScreen.OnCompletionListener {
     private static Map<ScreenName, Screen> screens;
     private static Screen currentScreen;
 
     private Assets assets;
+
+    @Override
+    public void onLoadingComplete() {
+        setScreen(ScreenName.GAME);
+    }
 
     public enum ScreenName {
         GAME, LOADING
@@ -28,10 +34,13 @@ public class IntoTheDeep extends ApplicationAdapter {
 
         screens = new HashMap<ScreenName, Screen>();
 
-        screens.put(ScreenName.GAME, new GameScreen(assets));
-        screens.put(ScreenName.LOADING, new LoadingScreen(assets));
+        LoadingScreen loadingScreen = new LoadingScreen(assets);
+        loadingScreen.setOnCompletionListener(this);
 
-        setScreen(ScreenName.GAME);
+        screens.put(ScreenName.GAME, new GameScreen(assets));
+        screens.put(ScreenName.LOADING, loadingScreen);
+
+        setScreen(ScreenName.LOADING);
 	}
 
 	@Override

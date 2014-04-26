@@ -1,4 +1,4 @@
-package org.intothedeep.ld48.screens;
+package org.intothedeep.ld48.framework;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;

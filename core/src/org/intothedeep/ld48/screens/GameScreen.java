@@ -1,5 +1,7 @@
 package org.intothedeep.ld48.screens;
 
+import org.intothedeep.ld48.framework.BaseScreen;
+
 /**
  * Created by aidan on 26/04/14.
  */

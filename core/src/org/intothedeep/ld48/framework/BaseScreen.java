@@ -4,21 +4,25 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Created by aidan on 26/04/14.
  * Add some default implementations for all screens
  */
 public abstract class BaseScreen implements Screen, InputProcessor {
-    protected Stage stage;
-    public static final int HEIGHT = 480;
-    public static final int WIDTH = 320;
+    protected int width = 640, height = 480;
 
+    protected Stage stage;
     protected Assets assets;
 
-    public BaseScreen(Assets assets) {
+    public BaseScreen(Assets assets, int width, int height) {
         this.assets = assets;
-        stage = new Stage(new StretchViewport(WIDTH, HEIGHT));
+        stage = new Stage(new StretchViewport(width, height));
+    }
+
+    public BaseScreen(Assets assets) {
+        this(assets, 640, 480);
     }
 
     public Assets getAssets() {
@@ -86,5 +90,17 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setViewport(Viewport viewport) {
+        stage.setViewport(viewport);
     }
 }

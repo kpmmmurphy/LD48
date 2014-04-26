@@ -42,7 +42,6 @@ public abstract class AnimatedImage extends Image {
             timer = 0;
             currentFrame = (++currentFrame) % keyFrames.length;
         }
-        System.out.println(currentFrame);
     }
 
     public TextureRegion[] getKeyFrames() {

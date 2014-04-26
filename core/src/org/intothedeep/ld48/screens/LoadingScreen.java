@@ -30,6 +30,9 @@ public class LoadingScreen extends BasicLoadingScreen {
 
     @Override
     public void load() {
+        //BACKGROUND
+        loadTexture("background.main", "background/polygon_back.png");
+
         //DIVER
         loadTexture("diver.one",   "diver/diver_1.png");
         loadTexture("diver.two",   "diver/diver_2.png");

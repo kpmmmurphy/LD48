@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class IntoTheDeep extends ApplicationAdapter implements BasicLoadingScreen.OnCompletionListener {
     public static final int WIDTH = 480;
-    public static final int HEIGHT = 640;
+    public static final int HEIGHT = 600;
 
     private static Map<ScreenName, BaseScreen> screens;
     private static BaseScreen currentScreen;

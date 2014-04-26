@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import org.intothedeep.ld48.framework.Assets;
+import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.BasicLoadingScreen;
 import org.intothedeep.ld48.screens.GameScreen;
 import org.intothedeep.ld48.screens.LoadingScreen;
@@ -14,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class IntoTheDeep extends ApplicationAdapter implements BasicLoadingScreen.OnCompletionListener {
-    private static Map<ScreenName, Screen> screens;
-    private static Screen currentScreen;
+    private static Map<ScreenName, BaseScreen> screens;
+    private static BaseScreen currentScreen;
 
     private Assets assets;
 
@@ -32,7 +33,7 @@ public class IntoTheDeep extends ApplicationAdapter implements BasicLoadingScree
 	public void create () {
         assets = new Assets();
 
-        screens = new HashMap<ScreenName, Screen>();
+        screens = new HashMap<ScreenName, BaseScreen>();
 
         LoadingScreen loadingScreen = new LoadingScreen(assets);
         loadingScreen.setOnCompletionListener(this);
@@ -56,6 +57,7 @@ public class IntoTheDeep extends ApplicationAdapter implements BasicLoadingScree
             currentScreen.hide();
         }
         currentScreen = screens.get(screenName);
+        Gdx.input.setInputProcessor(currentScreen);
         currentScreen.show();
     }
 }

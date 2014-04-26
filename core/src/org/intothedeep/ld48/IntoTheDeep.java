@@ -5,27 +5,31 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
+import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.screens.GameScreen;
+import org.intothedeep.ld48.screens.LoadingScreen;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class IntoTheDeep extends ApplicationAdapter {
-//    public static final int HEIGHT = 480;
-//    public static final int WIDTH = 320;
-
     private static Map<ScreenName, Screen> screens;
     private static Screen currentScreen;
 
+    private Assets assets;
+
     public enum ScreenName {
-        GAME
+        GAME, LOADING
     }
 	
 	@Override
 	public void create () {
+        assets = new Assets();
+
         screens = new HashMap<ScreenName, Screen>();
 
-        screens.put(ScreenName.GAME, new GameScreen());
+        screens.put(ScreenName.GAME, new GameScreen(assets));
+        screens.put(ScreenName.LOADING, new LoadingScreen(assets));
 
         setScreen(ScreenName.GAME);
 	}

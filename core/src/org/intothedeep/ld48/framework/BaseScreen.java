@@ -1,6 +1,7 @@
 package org.intothedeep.ld48.framework;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
@@ -13,8 +14,15 @@ public abstract class BaseScreen implements Screen {
     public static final int HEIGHT = 480;
     public static final int WIDTH = 320;
 
-    public BaseScreen() {
+    protected Assets assets;
+
+    public BaseScreen(Assets assets) {
+        this.assets = assets;
         stage = new Stage(new StretchViewport(WIDTH, HEIGHT));
+    }
+
+    public Assets getAssets() {
+        return assets;
     }
 
     @Override

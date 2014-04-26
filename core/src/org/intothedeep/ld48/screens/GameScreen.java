@@ -1,5 +1,6 @@
 package org.intothedeep.ld48.screens;
 
+import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 
 /**
@@ -12,8 +13,8 @@ public class GameScreen extends BaseScreen {
         READY, PAUSED, RUNNING, OVER
     }
 
-    public GameScreen() {
-        super();
+    public GameScreen(Assets assets) {
+        super(assets);
         currentState = State.READY;
     }
 

@@ -1,11 +1,13 @@
 package org.intothedeep.ld48.generators;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Bubble;
-import org.intothedeep.ld48.framework.BaseScreen;
+import org.intothedeep.ld48.screens.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -16,12 +18,12 @@ import java.util.Random;
 public class BubbleGenerator {
 
     private Stage stage;
-    private BaseScreen screen;
+    private GameScreen screen;
     private ArrayList<Bubble> bubbles;
     private short BUBBLE_LIMIT = 10;
     private Random random;
 
-    public BubbleGenerator(BaseScreen screen, Stage stage) {
+    public BubbleGenerator(GameScreen screen, Stage stage) {
         this.stage = stage;
         this.screen = screen;
         random = new Random();
@@ -58,10 +60,22 @@ public class BubbleGenerator {
     }
 
     public void manageBubbles(){
+
         for(Bubble bubble : bubbles){
-            if(bubble.getY() >= Gdx.graphics.getHeight()){
-                bubble.active = false;
-                System.out.println("Bursting bubble.... 3:D ");
+            if(bubble.isActive()){
+                if( bubble.getY() >= Gdx.graphics.getHeight()){
+                    bubble.toggleActive();
+                    System.out.println("Bursting bubble.... 3:D ");
+                }
+                //Colliding with diver
+                Rectangle rect1 = new Rectangle(bubble.getX(), bubble.getY(), bubble.getWidth(), bubble.getHeight());
+                Rectangle diver = screen.getDiver().getBoundingBox();
+
+                if(Intersector.overlaps(rect1, diver)){
+                    System.out.println("OUCH!!!!!");
+                    bubble.toggleActive();
+                    screen.getDiver().addOxygen();
+                }
             }
         }
     }
@@ -80,4 +94,5 @@ public class BubbleGenerator {
             }
         }
     }
+
 }

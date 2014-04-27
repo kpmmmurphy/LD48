@@ -63,4 +63,5 @@ public abstract class AnimatedImage extends Image {
         batch.draw(currentRegion, getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
+
 }

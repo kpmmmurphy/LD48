@@ -2,6 +2,7 @@ package org.intothedeep.ld48.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import org.intothedeep.ld48.framework.AnimatedImage;
@@ -24,6 +25,9 @@ public class Diver extends AnimatedImage{
 
     private int width = 64;
     private int height = 96;
+
+    private int oxygen = 100;
+    private int decreaseRate = 5;
 
     public Diver(BaseScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
@@ -69,7 +73,7 @@ public class Diver extends AnimatedImage{
             motion.y = 0;
         }
 
-//        System.out.println(motion.x);
+        System.out.println("OXYGEN: " + oxygen);
 
         moveBy(motion.x, motion.y);
     }
@@ -103,12 +107,25 @@ public class Diver extends AnimatedImage{
         motion.x -= X_SPEED;
     }
 
+    public void addOxygen(){
+        System.out.println("Adding Oxygen! ");
+        oxygen += 10;
+    }
 
 
+    public String getOxygenString() {
+        return String.valueOf(oxygen);
+    }
 
+    public int getOxygen(){
+        return oxygen;
+    }
 
+    public void decreaseOxygen() {
+        oxygen -= decreaseRate;
+    }
 
-
-
-
+    public Rectangle getBoundingBox() {
+        return new Rectangle(getX(), getY(), getWidth(), getHeight());
+    }
 }

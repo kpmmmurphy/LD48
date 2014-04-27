@@ -1,10 +1,10 @@
 package org.intothedeep.ld48.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
-import org.intothedeep.ld48.entities.Bubble;
 import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
@@ -20,7 +20,7 @@ public class GameScreen extends BaseScreen {
     private int depth;
 
     private State currentState;
-    private Font depthFont;
+    private Font depthFont, oxygenFont;
 
     private Diver diver;
 
@@ -45,6 +45,7 @@ public class GameScreen extends BaseScreen {
 //                updateRunning();
 //                presentRunning();
                 depthFont.setString("depth " + depth);
+                oxygenFont.setString("depth " + diver.getOxygenString());
                 break;
             case OVER:
                 break;
@@ -65,21 +66,22 @@ public class GameScreen extends BaseScreen {
         stage.addActor(depthFont);
 
         diver = new Diver(this, 60);
-        stage.addActor(diver);
+        oxygenFont = new Font(assets.getTexure("fonts.main"), "oxygen " + diver.getOxygenString());
+        oxygenFont.setPosition(Gdx.graphics.getWidth() - 200, 10);
+        stage.addActor(oxygenFont);
 
-        Bubble bubble = new Bubble(this, 60);
-        stage.addActor(bubble);
+        stage.addActor(diver);
 
         // increase the depth every second
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
                 depth++;
+                diver.decreaseOxygen();
             }
         }, 0, 1);
 
        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
-
     }
 
     @Override
@@ -105,5 +107,9 @@ public class GameScreen extends BaseScreen {
             diver.moveDown();
         }
         return false;
+    }
+
+    public Diver getDiver(){
+        return diver;
     }
 }

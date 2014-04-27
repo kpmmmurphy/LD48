@@ -19,12 +19,15 @@ public class Bubble extends AnimatedImage {
     private float X_SPEED = 1;
     private float Y_SPEED = 1;
     public boolean active;
+    private byte width = 20;
+    private byte height = 20;
 
     public Bubble(BaseScreen screen, float duration) {
         super(duration);
         this.screen = screen;
         active = false;
         motion = new Vector2(0, 0);
+        setSize(width, height);
         setKeyFrames(getTextureRegions());
         motion.y = Y_SPEED;
     }
@@ -53,5 +56,14 @@ public class Bubble extends AnimatedImage {
         TextureRegion[] regions = new TextureRegion[textureRegions.size()];
         return textureRegions.toArray(regions);
     }
+
+    public boolean isActive(){
+        return active;
+    }
+
+    public void toggleActive(){
+        active = !active;
+    }
+
 
 }

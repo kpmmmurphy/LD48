@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -16,9 +17,7 @@ import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.Font;
 import org.intothedeep.ld48.generators.BubbleGenerator;
-
 import org.intothedeep.ld48.generators.FishGenerator;
-
 import org.intothedeep.ld48.generators.SeaweedGenerator;
 
 
@@ -41,7 +40,7 @@ public class GameScreen extends BaseScreen {
     private FishGenerator fishGenerator;
     private BubbleGenerator bubbleGen;
 
-    private float depthAlpha = 0.005f;
+    private int depthAlpha = 0;
 
     public enum State {
         READY, PAUSED, RUNNING, OVER
@@ -50,6 +49,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Assets assets, int WIDTH, int HEIGHT) {
         super(assets, WIDTH, HEIGHT);
         shapeRenderer = new ShapeRenderer();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
     }
 
     @Override
@@ -89,10 +89,21 @@ public class GameScreen extends BaseScreen {
                 break;
         }
 
-        //shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        //shapeRenderer.setColor(0, 0, 0, depth / 1000);
-        //shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //shapeRenderer.end();
+        depthAlpha++;
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0, 0, 0, depthAlpha / 10000.0f);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        //TODO Lighting
+        /*
+        shapeRenderer.setColor(1, 1, 1, 0.5f);
+        shapeRenderer.circle(diver.getRight() - diver.getWidth() / 2, diver.getTop(), 20);
+        shapeRenderer.circle(diver.getRight() - diver.getWidth() / 2, diver.getTop() - diver.getHeight() / 2, 200);
+        Gdx.gl.glDisable(GL20.GL_BLEND);
+        */
+        shapeRenderer.end();
+
 
         Batch batch = stage.getSpriteBatch();
         batch.begin();

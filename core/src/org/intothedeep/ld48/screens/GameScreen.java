@@ -88,7 +88,7 @@ public class GameScreen extends BaseScreen {
         depthFont.setPosition(10, 10);
         stage.addActor(depthFont);
 
-        diver = new Diver(this, 60);
+        diver = new Diver(stage, this, 60);
         oxygenFont = new Font(assets.getTexure("fonts.main"), "oxygen " + diver.getOxygenString());
         oxygenFont.setPosition(Gdx.graphics.getWidth() - 200, 10);
         stage.addActor(oxygenFont);

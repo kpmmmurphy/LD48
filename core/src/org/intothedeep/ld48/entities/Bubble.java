@@ -22,12 +22,14 @@ public class Bubble extends AnimatedImage {
     private byte width = 20;
     private byte height = 20;
 
-    public Bubble(BaseScreen screen, float duration) {
+    private float odds = 0.7f;
+
+    public Bubble(BaseScreen screen, float duration, int size) {
         super(duration);
         this.screen = screen;
         active = false;
         motion = new Vector2(0, 0);
-        setSize(width, height);
+        setSize(size, size);
         setKeyFrames(getTextureRegions());
         motion.y = Y_SPEED;
     }
@@ -65,5 +67,11 @@ public class Bubble extends AnimatedImage {
         active = !active;
     }
 
+    public float getOdds() {
+        return odds;
+    }
 
+    public void setOdds(float odds) {
+        this.odds = odds;
+    }
 }

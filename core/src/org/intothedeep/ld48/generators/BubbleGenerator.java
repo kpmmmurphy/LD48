@@ -55,8 +55,9 @@ public class BubbleGenerator {
         int rand_x;
         for(byte i = 0; i < BUBBLE_LIMIT; i++ ){
             rand_x = random.nextInt(Gdx.graphics.getWidth());
-            Bubble bubble = new Bubble(screen, 30);
-            bubble.setPosition(rand_x,-60);
+            int randSize = random.nextInt(42 - 10) + 10;
+            Bubble bubble = new Bubble(screen, 30, randSize);
+            bubble.setPosition(rand_x,-10);
             bubbles.add(bubble);
         }
         return bubbles;
@@ -87,7 +88,7 @@ public class BubbleGenerator {
         for(Bubble bubble : bubbles){
             if(!bubble.active){
                 float chance = random.nextFloat();
-                if(chance <= 0.6f / 60 ){
+                if(chance <= bubble.getOdds() / 30 ){
                     bubble.active = true;
                     int rand_x = random.nextInt(Gdx.graphics.getWidth());
                     bubble.setPosition(rand_x, 0);

@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.framework.AnimatedImage;
 import org.intothedeep.ld48.screens.GameScreen;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by kpmmmurphy on 26/04/14.
@@ -16,8 +19,10 @@ import java.util.ArrayList;
 public class Diver extends AnimatedImage{
 
     private GameScreen screen;
+    private Stage stage;
     private Vector2 motion;
     private Vector2 tilt;
+    private Random random;
 
     private float X_SPEED = 2;
     private float Y_SPEED = 2;
@@ -27,16 +32,30 @@ public class Diver extends AnimatedImage{
     private int height = 96;
 
     private int oxygen = 100;
-    private int decreaseRate = 5;
+    private int decreaseRate = 3;
 
-    public Diver(GameScreen screen, float spriteShowDuration){
+    public Diver(Stage stage, GameScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
+        this.stage = stage;
         this.screen = screen;
         setSize(width, height);
         motion = new Vector2(0,0);
         tilt = new Vector2(0,0);
-        setPosition(100, 100);
+        setOrigin(getRight() / 2, getTop() / 2);
+        setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         setKeyFrames(getTextureRegions());
+        random = new Random();
+
+
+        Timer.Task releaseBubbleTask = new Timer.Task(){
+
+            @Override
+            public void run() {
+                releaseOxygenBubble();
+            }
+        };
+        Timer.schedule(releaseBubbleTask, 0, 1);
+
     }
 
     @Override
@@ -56,7 +75,6 @@ public class Diver extends AnimatedImage{
             if (Math.abs(motion.y) < friction) {
                 motion.y = 0;
             }
-
             moveBy(motion.x, motion.y);
         }else if(screen.getCurrentState() == GameScreen.State.OVER){
             moveBy(0, -(Y_SPEED * Y_SPEED));
@@ -134,7 +152,19 @@ public class Diver extends AnimatedImage{
         oxygen -= decreaseRate;
     }
 
+    public void setDecreaseRate(int decreaseRate) {
+        this.decreaseRate = decreaseRate;
+    }
+
     public Rectangle getBoundingBox() {
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
+    }
+
+    public void releaseOxygenBubble(){
+        int randSize = random.nextInt(10 - 5) + 5;
+        Bubble bubble = new Bubble(screen, 30, randSize);
+        bubble.setPosition(getX(), getTop() - 20);
+        bubble.toggleActive();
+        stage.addActor(bubble);
     }
 }

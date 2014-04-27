@@ -14,12 +14,18 @@ import java.util.Map;
  * Created by aidan on 26/04/14.
  */
 public class Font extends Actor {
+    public static final int TEXT_ALIGN_LEFT = 0;
+    public static final int TEXT_ALIGN_RIGHT = 1;
+    public static final int TEXT_ALIGN_CENTER = 2;
+
     private Map<Integer, TextureRegion> imageMap;
     private Texture texture;
     private TextureRegion[] glyphs;
     private int size, spacing;
     private Color colour;
     private String string;
+    private float alignX;
+    private int align;
 
     public Font(Texture texture) {
         this.texture = texture;
@@ -33,7 +39,7 @@ public class Font extends Actor {
 
     public Font(Texture texture, String string) {
         this(texture);
-        glyphs = getGlyphs(string);
+        setString(string);
     }
 
     private TextureRegion[] getGlyphs(String string) {
@@ -72,9 +78,14 @@ public class Font extends Actor {
         for (TextureRegion glyph : glyphs) {
             index++;
             if (glyph == null) continue;
-            batch.draw(glyph, getX() + (index * size) + (spacing * index), getY(), size, size);
+            batch.draw(glyph, getX() + alignX + (index * size) + (spacing * index), getY(), size, size);
         }
         batch.setColor(old);
+    }
+
+    public void setAlign(int align) {
+        this.align = align;
+        realign();
     }
 
     public void setColor(Color color) {
@@ -83,6 +94,7 @@ public class Font extends Actor {
 
     public void setSize(int size) {
         this.size = size;
+        realign();
     }
 
     public void setSpacing(int spacing) {
@@ -90,6 +102,35 @@ public class Font extends Actor {
     }
 
     public void setString(String string) {
+        if (this.string == string) return;
         glyphs = getGlyphs(string);
+        this.string = string;
+
+        realign();
+    }
+
+    private void realign() {
+        float width = getWidth();
+        switch (align) {
+            case TEXT_ALIGN_LEFT:
+                alignX = 0;
+                break;
+            case TEXT_ALIGN_CENTER:
+                alignX = - width / 2;
+                break;
+            case TEXT_ALIGN_RIGHT:
+                alignX = - width;
+                break;
+        }
+    }
+
+    @Override
+    public float getWidth() {
+        return string.length() * (size + spacing);
+    }
+
+    @Override
+    public float getHeight() {
+        return size;
     }
 }

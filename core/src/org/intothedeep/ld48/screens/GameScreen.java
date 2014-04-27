@@ -23,10 +23,12 @@ public class GameScreen extends BaseScreen {
     private int depth;
 
     private State currentState;
-    private Font depthFont, oxygenFont, gameOverFont, tryAgainFont;
+    private Font depthFont, oxygenFont, gameOverFont, tryAgainFont, finalScoreFont;
 
     private Diver diver;
     private Texture foreground;
+
+    private Timer depthTimer;
 
     public enum State {
         READY, PAUSED, RUNNING, OVER
@@ -45,29 +47,28 @@ public class GameScreen extends BaseScreen {
             case PAUSED:
                 break;
             case RUNNING:
-//                updateRunning();
-//                presentRunning();
                 depthFont.setString("depth " + depth);
                 oxygenFont.setString("oxygen " + diver.getOxygenString());
                 if(diver.getOxygen() <= 0){
-                    System.out.println("GAME OVERRRR");
                     currentState = State.OVER;
                 }
                 break;
             case OVER:
-                System.out.println("GAME IS OVERRRR");
-
                 gameOverFont = new Font(assets.getTexure("fonts.main"), "Game Over");
                 gameOverFont.setSize(24);
+                gameOverFont.setAlign(Font.TEXT_ALIGN_CENTER);
                 gameOverFont.setColor(Color.RED);
-                gameOverFont.setPosition(0, Gdx.graphics.getHeight() / 2);
+                gameOverFont.setPosition(width / 2, height / 2);
 
                 tryAgainFont = new Font(assets.getTexure("fonts.main"), "Again?");
                 tryAgainFont.setSize(16);
+                tryAgainFont.setAlign(Font.TEXT_ALIGN_CENTER);
                 tryAgainFont.setColor(Color.LIGHT_GRAY);
-                tryAgainFont.setPosition(Gdx.graphics.getWidth() / 3,  Gdx.graphics.getHeight() / 3);
+                tryAgainFont.setPosition(width / 2,  height / 3);
 
-
+                finalScoreFont.setVisible(true);
+                finalScoreFont.setPosition(width / 2, height - 200);
+                finalScoreFont.setString("Score " + depth);
 
 
 
@@ -102,8 +103,15 @@ public class GameScreen extends BaseScreen {
 
         stage.addActor(diver);
 
+        finalScoreFont = new Font(assets.getTexure("fonts.main"), "Score " + depth);
+        finalScoreFont.setSize(30);
+        finalScoreFont.setAlign(Font.TEXT_ALIGN_CENTER);
+        finalScoreFont.setVisible(false);
+        stage.addActor(finalScoreFont);
+
         // increase the depth every second
-        Timer.schedule(new Timer.Task() {
+        depthTimer = new Timer();
+        depthTimer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 if(currentState == State.RUNNING){
@@ -112,6 +120,16 @@ public class GameScreen extends BaseScreen {
                 }
             }
         }, 0, 1);
+        depthTimer.start();
+//        Timer.schedule(new Timer.Task() {
+//            @Override
+//            public void run() {
+//                if(currentState == State.RUNNING){
+//                    depth++;
+//                    diver.decreaseOxygen();
+//                }
+//            }
+//        }, 0, 1);
 
         BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
         foreground = assets.getTexure("foreground.vignette");
@@ -119,7 +137,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void hide() {
-
+        depthTimer.stop();
     }
 
     @Override
@@ -141,6 +159,7 @@ public class GameScreen extends BaseScreen {
                 diver.moveDown();
             }
         }else if(currentState == State.OVER){
+            hide();
             show();
         }
 

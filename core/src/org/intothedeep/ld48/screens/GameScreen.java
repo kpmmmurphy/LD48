@@ -68,6 +68,7 @@ public class GameScreen extends BaseScreen {
                     Sound game_over = assets.getSound("game_over");
                     game_over.play();
                 }
+                bubbleGen.setDepth(depth);
                 bubbleGen.manageBubbles();
                 fishGenerator.checkCollisions(diver);
                 break;

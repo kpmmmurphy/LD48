@@ -22,12 +22,14 @@ public class BubbleGenerator {
     private ArrayList<Bubble> bubbles;
     private short BUBBLE_LIMIT = 10;
     private Random random;
+    private float depth;
 
     public BubbleGenerator(final GameScreen screen, Stage stage) {
         this.stage = stage;
         this.screen = screen;
         random = new Random();
         bubbles = genBubbles();
+        depth = 0;
 
         Timer.Task blowBubbleTask = new Timer.Task(){
             @Override
@@ -48,6 +50,7 @@ public class BubbleGenerator {
             int randSize = random.nextInt(42 - 10) + 10;
             Bubble bubble = new Bubble(screen, 30, randSize);
             bubble.setPosition(rand_x,-10);
+            System.out.println(depth);
             bubbles.add(bubble);
         }
         return bubbles;
@@ -82,11 +85,15 @@ public class BubbleGenerator {
                     bubble.active = true;
                     int rand_x = random.nextInt(Gdx.graphics.getWidth());
                     bubble.setPosition(rand_x, 0);
-                    System.out.println("BLOWING BUBBLE, Bitch :P ");
+                    bubble.setSpeed(1 + depth / 50.0f);
                     stage.addActor(bubble);
                 }
             }
         }
+    }
+
+    public void setDepth(float depth) {
+        this.depth = depth;
     }
 
 }

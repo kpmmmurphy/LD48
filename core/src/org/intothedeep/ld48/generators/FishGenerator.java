@@ -61,7 +61,7 @@ public class FishGenerator extends Actor {
             fish.setX(screen.getWidth() + 100);
             fish.setDirection(Fish.DIRECTION_LEFT);
         }
-        fish.setY(CommonMath.randomInRange(- screen.getHeight() / 2, screen.getHeight() / 2));
+        fish.setY(CommonMath.randomInRange(-screen.getHeight() / 2, screen.getHeight() / 2));
     }
 
     public void checkCollisions(Diver diver) {

@@ -203,7 +203,7 @@ public class Diver extends AnimatedImage{
         return new Rectangle(getX(), getY(), getWidth(), getHeight());
     }
 
-    public void releaseOxygenBubble(){
+    public void releaseOxygenBubble() {
         int randSize = random.nextInt(10 - 5) + 5;
         Bubble bubble = new Bubble(screen, 30, randSize);
         bubble.setPosition(getX(), getTop() - 20);

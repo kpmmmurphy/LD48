@@ -2,6 +2,7 @@ package org.intothedeep.ld48.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
@@ -20,7 +21,7 @@ public class GameScreen extends BaseScreen {
     private int depth;
 
     private State currentState;
-    private Font depthFont, oxygenFont;
+    private Font depthFont, oxygenFont, gameOverFont, tryAgainFont;
 
     private Diver diver;
 
@@ -30,7 +31,6 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(Assets assets, int WIDTH, int HEIGHT) {
         super(assets, WIDTH, HEIGHT);
-        currentState = State.RUNNING;
     }
 
     @Override
@@ -45,9 +45,32 @@ public class GameScreen extends BaseScreen {
 //                updateRunning();
 //                presentRunning();
                 depthFont.setString("depth " + depth);
-                oxygenFont.setString("depth " + diver.getOxygenString());
+                oxygenFont.setString("oxygen " + diver.getOxygenString());
+                if(diver.getOxygen() <= 0){
+                    System.out.println("GAME OVERRRR");
+                    currentState = State.OVER;
+                }
                 break;
             case OVER:
+                System.out.println("GAME IS OVERRRR");
+
+                gameOverFont = new Font(assets.getTexure("fonts.main"), "Game Over");
+                gameOverFont.setSize(24);
+                gameOverFont.setColor(Color.RED);
+                gameOverFont.setPosition(0, Gdx.graphics.getHeight() / 2);
+
+                tryAgainFont = new Font(assets.getTexure("fonts.main"), "Again?");
+                tryAgainFont.setSize(16);
+                tryAgainFont.setColor(Color.LIGHT_GRAY);
+                tryAgainFont.setPosition(Gdx.graphics.getWidth() / 3,  Gdx.graphics.getHeight() / 3);
+
+
+
+
+
+                stage.addActor(gameOverFont);
+                stage.addActor(tryAgainFont);
+
                 break;
         }
     }
@@ -56,7 +79,7 @@ public class GameScreen extends BaseScreen {
     public void show() {
         super.show();
         stage.clear();
-
+        currentState = State.RUNNING;
         depth = 0;
 
         stage.addActor(new Background(this));
@@ -76,8 +99,10 @@ public class GameScreen extends BaseScreen {
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                depth++;
-                diver.decreaseOxygen();
+                if(currentState == State.RUNNING){
+                    depth++;
+                    diver.decreaseOxygen();
+                }
             }
         }, 0, 1);
 
@@ -91,25 +116,34 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean keyDown(int keycode) {
-        if(keycode == Input.Keys.DPAD_RIGHT){
-            diver.moveRight();
+        if(currentState == State.RUNNING){
+            if(keycode == Input.Keys.DPAD_RIGHT){
+                diver.moveRight();
+            }
+
+            if(keycode == Input.Keys.DPAD_LEFT){
+                diver.moveLeft();
+            }
+
+            if(keycode == Input.Keys.DPAD_UP){
+                diver.moveUp();
+            }
+
+            if(keycode == Input.Keys.DPAD_DOWN){
+                diver.moveDown();
+            }
+        }else if(currentState == State.OVER){
+            show();
         }
 
-        if(keycode == Input.Keys.DPAD_LEFT){
-            diver.moveLeft();
-        }
-
-        if(keycode == Input.Keys.DPAD_UP){
-            diver.moveUp();
-        }
-
-        if(keycode == Input.Keys.DPAD_DOWN){
-            diver.moveDown();
-        }
         return false;
     }
 
     public Diver getDiver(){
         return diver;
+    }
+
+    public State getCurrentState(){
+        return currentState;
     }
 }

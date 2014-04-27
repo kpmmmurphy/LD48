@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import org.intothedeep.ld48.framework.AnimatedImage;
-import org.intothedeep.ld48.framework.BaseScreen;
+import org.intothedeep.ld48.screens.GameScreen;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class Diver extends AnimatedImage{
 
-    private BaseScreen screen;
+    private GameScreen screen;
     private Vector2 motion;
     private Vector2 tilt;
 
@@ -29,7 +29,7 @@ public class Diver extends AnimatedImage{
     private int oxygen = 100;
     private int decreaseRate = 5;
 
-    public Diver(BaseScreen screen, float spriteShowDuration){
+    public Diver(GameScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
         this.screen = screen;
         setSize(width, height);
@@ -43,6 +43,42 @@ public class Diver extends AnimatedImage{
     public void act(float delta){
         super.act(delta);
 
+        if(screen.getCurrentState() == GameScreen.State.RUNNING){
+            checkBorderCollision();
+
+            // friction
+            motion.x = (Math.abs(motion.x) - friction) * Math.signum(motion.x);
+            motion.y = (Math.abs(motion.y) - friction) * Math.signum(motion.y);
+
+            if (Math.abs(motion.x) < friction) {
+                motion.x = 0;
+            }
+            if (Math.abs(motion.y) < friction) {
+                motion.y = 0;
+            }
+
+            moveBy(motion.x, motion.y);
+        }else if(screen.getCurrentState() == GameScreen.State.OVER){
+            moveBy(0, -(Y_SPEED * Y_SPEED));
+        }
+
+
+
+    }
+
+    public TextureRegion[] getTextureRegions(){
+        ArrayList<TextureRegion> textureRegions = new ArrayList();
+        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.one")));
+        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.two")));
+        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.three")));
+        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.four")));
+        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.five")));
+
+        TextureRegion[] regions = new TextureRegion[textureRegions.size()];
+        return textureRegions.toArray(regions);
+    }
+
+    private void checkBorderCollision(){
         //Right Border
         if(getRight() >= (float) Gdx.graphics.getWidth()){
             setX( Gdx.graphics.getWidth() - getWidth());
@@ -61,33 +97,6 @@ public class Diver extends AnimatedImage{
         if(getY() <= 0){
             setY(0);
         }
-
-        // friction
-        motion.x = (Math.abs(motion.x) - friction) * Math.signum(motion.x);
-        motion.y = (Math.abs(motion.y) - friction) * Math.signum(motion.y);
-
-        if (Math.abs(motion.x) < friction) {
-            motion.x = 0;
-        }
-        if (Math.abs(motion.y) < friction) {
-            motion.y = 0;
-        }
-
-        System.out.println("OXYGEN: " + oxygen);
-
-        moveBy(motion.x, motion.y);
-    }
-
-    public TextureRegion[] getTextureRegions(){
-        ArrayList<TextureRegion> textureRegions = new ArrayList();
-        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.one")));
-        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.two")));
-        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.three")));
-        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.four")));
-        textureRegions.add(new TextureRegion(screen.getAssets().getTexure("diver.five")));
-
-        TextureRegion[] regions = new TextureRegion[textureRegions.size()];
-        return textureRegions.toArray(regions);
     }
 
     public void moveUp(){

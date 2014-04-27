@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 
 import java.util.ArrayList;
 
-import javax.xml.soap.Text;
-
 /**
  * Created by aidan on 26/04/14.
  */
@@ -72,12 +70,12 @@ public abstract class BasicLoadingScreen extends BaseScreen {
     }
 
     protected void loadSound(String name, String resourcePath) {
-        textures.add(new Resource(name, resourcePath));
+        sounds.add(new Resource(name, resourcePath));
         assetManager.load(resourcePath, Sound.class);
     }
 
     protected void loadMusic(String name, String resourcePath) {
-        textures.add(new Resource(name, resourcePath));
+        music.add(new Resource(name, resourcePath));
         assetManager.load(resourcePath, Music.class);
     }
 

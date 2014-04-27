@@ -37,6 +37,7 @@ public class Diver extends AnimatedImage{
     private boolean invinsible;
     private int recoveryTime;
     private int flashing;
+    private boolean isTangled = false;
 
     public Diver(Stage stage, GameScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
@@ -81,6 +82,10 @@ public class Diver extends AnimatedImage{
             }
             if (Math.abs(motion.y) < friction) {
                 motion.y = 0;
+            }
+            if(isTangled){
+                motion.x = 0.5f;
+                motion.y = 0.5f;
             }
             moveBy(motion.x, motion.y);
         }else if(screen.getCurrentState() == GameScreen.State.OVER){
@@ -198,5 +203,9 @@ public class Diver extends AnimatedImage{
         bubble.setPosition(getX(), getTop() - 20);
         bubble.toggleActive();
         stage.addActor(bubble);
+    }
+
+    public void setTangled(boolean tangled){
+        isTangled = tangled;
     }
 }

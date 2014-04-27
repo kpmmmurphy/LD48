@@ -62,20 +62,11 @@ public class GameScreen extends BaseScreen {
                 gameOverFont.setColor(Color.RED);
                 gameOverFont.setPosition(width / 2, height / 2);
 
-                tryAgainFont = new Font(assets.getTexure("fonts.main"), "Again?");
-                tryAgainFont.setSize(16);
-                tryAgainFont.setAlign(Font.TEXT_ALIGN_CENTER);
-                tryAgainFont.setColor(Color.LIGHT_GRAY);
-                tryAgainFont.setPosition(width / 2,  height / 3);
-
                 finalScoreFont.setVisible(true);
                 finalScoreFont.setPosition(width / 2, height - 200);
                 finalScoreFont.setString("Score " + depth);
 
-
-
                 stage.addActor(gameOverFont);
-                stage.addActor(tryAgainFont);
 
                 break;
         }
@@ -98,7 +89,7 @@ public class GameScreen extends BaseScreen {
         depthFont.setPosition(10, 10);
         stage.addActor(depthFont);
 
-        diver = new Diver(this, 60);
+        diver = new Diver(stage, this, 60);
         oxygenFont = new Font(assets.getTexure("fonts.main"), "oxygen " + diver.getOxygenString());
         oxygenFont.setPosition(Gdx.graphics.getWidth() - 200, 10);
         stage.addActor(oxygenFont);

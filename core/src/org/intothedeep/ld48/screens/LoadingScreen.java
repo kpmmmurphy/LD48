@@ -41,6 +41,10 @@ public class LoadingScreen extends BasicLoadingScreen {
         loadTexture("diver.four",  "diver/diver_4.png");
         loadTexture("diver.five", "diver/diver_5.png");
 
+        //FISH
+        loadTexture("fish.1", "enemies/fish/fish-1.png");
+        loadTexture("fish.2", "enemies/fish/fish-2.png");
+
         //BUBBLES
         loadTexture("bubble.one", "items/bubble.png");
         loadTexture("bubble.two", "items/bubble_2.png");

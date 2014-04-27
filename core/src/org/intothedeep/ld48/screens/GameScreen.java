@@ -9,10 +9,12 @@ import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
 import org.intothedeep.ld48.entities.Diver;
+import org.intothedeep.ld48.entities.Fish;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.Font;
 import org.intothedeep.ld48.generators.BubbleGenerator;
+import org.intothedeep.ld48.generators.FishGenerator;
 
 
 /**
@@ -121,17 +123,9 @@ public class GameScreen extends BaseScreen {
             }
         }, 0, 1);
         depthTimer.start();
-//        Timer.schedule(new Timer.Task() {
-//            @Override
-//            public void run() {
-//                if(currentState == State.RUNNING){
-//                    depth++;
-//                    diver.decreaseOxygen();
-//                }
-//            }
-//        }, 0, 1);
 
         BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
+        stage.addActor(new FishGenerator(this));
         foreground = assets.getTexure("foreground.vignette");
     }
 

@@ -105,4 +105,8 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     public void setViewport(Viewport viewport) {
         stage.setViewport(viewport);
     }
+
+    public Stage getStage() {
+        return stage;
+    }
 }

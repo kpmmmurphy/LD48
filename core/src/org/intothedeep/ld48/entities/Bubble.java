@@ -57,6 +57,11 @@ public class Bubble extends AnimatedImage {
                 count = 0;
             }
             moveBy(motion.x, motion.y);
+
+            if (getY() > screen.getHeight() + 20) {
+                active = false;
+                remove();
+            }
         }
 
     }

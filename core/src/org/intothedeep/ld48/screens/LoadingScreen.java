@@ -1,5 +1,12 @@
 package org.intothedeep.ld48.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Rectangle;
+
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BasicLoadingScreen;
 
@@ -7,6 +14,9 @@ import org.intothedeep.ld48.framework.BasicLoadingScreen;
  * Created by aidan on 26/04/14.
  */
 public class LoadingScreen extends BasicLoadingScreen {
+    private BitmapFont font;
+    private BitmapFont.TextBounds bounds;
+    private String loadingText;
 
     public LoadingScreen(Assets assets) {
         super(assets);
@@ -15,11 +25,25 @@ public class LoadingScreen extends BasicLoadingScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        int x = 240;
+        int y = 300;
+
+        Batch batch = stage.getSpriteBatch();
+        batch.begin();
+        font.draw(batch, loadingText, x - bounds.width / 2, y - bounds.height / 2);
+        batch.end();
     }
 
     @Override
     public void show() {
         super.show();
+        font = new BitmapFont();
+        font.setColor(Color.WHITE);
+        loadingText = "Loading...";
+        bounds = font.getBounds(loadingText);
         load();
     }
 

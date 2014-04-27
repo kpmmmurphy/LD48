@@ -37,6 +37,7 @@ public class GameScreen extends BaseScreen {
 
     private Timer depthTimer;
     private FishGenerator fishGenerator;
+    private BubbleGenerator bubbleGen;
 
     private float depthAlpha = 0.005f;
 
@@ -65,6 +66,7 @@ public class GameScreen extends BaseScreen {
                     Sound game_over = assets.getSound("game_over");
                     game_over.play();
                 }
+                bubbleGen.manageBubbles();
                 fishGenerator.checkCollisions(diver);
                 break;
             case OVER:
@@ -124,7 +126,7 @@ public class GameScreen extends BaseScreen {
 
         // increase the depth every second
         depthTimer = new Timer();
-        depthTimer.scheduleTask(new Timer.Task() {
+        Timer.Task task = new Timer.Task() {
             @Override
             public void run() {
                 if(currentState == State.RUNNING){
@@ -132,10 +134,11 @@ public class GameScreen extends BaseScreen {
                     diver.decreaseOxygen();
                 }
             }
-        }, 0, 1);
+        };
+        depthTimer.scheduleTask(task, 0, 1);
         depthTimer.start();
 
-        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
+        bubbleGen = new BubbleGenerator(this, stage);
 
         fishGenerator = new FishGenerator(this);
         stage.addActor(fishGenerator);
@@ -171,9 +174,11 @@ public class GameScreen extends BaseScreen {
             if(keycode == Input.Keys.DPAD_DOWN){
                 diver.moveDown();
             }
-        }else if(currentState == State.OVER){
-            hide();
-            show();
+        } else if(currentState == State.OVER){
+            if (keycode == Input.Keys.SPACE) {
+                hide();
+                show();
+            }
         }
 
         return false;

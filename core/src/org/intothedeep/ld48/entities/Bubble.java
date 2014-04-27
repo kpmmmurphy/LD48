@@ -93,4 +93,8 @@ public class Bubble extends AnimatedImage {
     public void setOdds(float odds) {
         this.odds = odds;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

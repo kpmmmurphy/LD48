@@ -60,7 +60,6 @@ public class Diver extends AnimatedImage{
         flashing = 0;
 
         Timer.Task releaseBubbleTask = new Timer.Task(){
-
             @Override
             public void run() {
                 releaseOxygenBubble();
@@ -208,7 +207,8 @@ public class Diver extends AnimatedImage{
         int randSize = random.nextInt(10 - 5) + 5;
         Bubble bubble = new Bubble(screen, 30, randSize);
         bubble.setPosition(getX(), getTop() - 20);
-        bubble.toggleActive();
+//        bubble.toggleActive();
+        bubble.setActive(true);
         stage.addActor(bubble);
     }
 

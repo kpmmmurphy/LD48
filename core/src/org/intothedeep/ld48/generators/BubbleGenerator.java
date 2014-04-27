@@ -23,7 +23,7 @@ public class BubbleGenerator {
     private short BUBBLE_LIMIT = 10;
     private Random random;
 
-    public BubbleGenerator(GameScreen screen, Stage stage) {
+    public BubbleGenerator(final GameScreen screen, Stage stage) {
         this.stage = stage;
         this.screen = screen;
         random = new Random();
@@ -32,13 +32,16 @@ public class BubbleGenerator {
         Timer.Task manageBubbleTask = new Timer.Task() {
             @Override
             public void run() {
-                manageBubbles();
+                if(screen.getCurrentState() == GameScreen.State.RUNNING){
+                    manageBubbles();
+                }
             }
         };
 
         Timer.Task blowBubbleTask = new Timer.Task(){
             @Override
             public void run() {
+                if(screen.getCurrentState() == GameScreen.State.RUNNING)
                 blowBubble();
             }
         };

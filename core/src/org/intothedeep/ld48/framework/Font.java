@@ -19,6 +19,7 @@ public class Font extends Actor {
     private TextureRegion[] glyphs;
     private int size, spacing;
     private Color colour;
+    private String string;
 
     public Font(Texture texture) {
         this.texture = texture;
@@ -36,6 +37,9 @@ public class Font extends Actor {
     }
 
     private TextureRegion[] getGlyphs(String string) {
+        if (this.string == string) {
+            return glyphs;
+        }
         TextureRegion[] regions = new TextureRegion[string.length()];
         for (int i = 0; i < string.length(); i++) {
             regions[i] = imageMap.get((int) string.charAt(i));

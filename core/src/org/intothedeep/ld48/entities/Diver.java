@@ -20,6 +20,7 @@ public class Diver extends AnimatedImage{
 
     private float X_SPEED = 2;
     private float Y_SPEED = 2;
+    private float friction = 0.06f;
 
     private int width = 64;
     private int height = 96;
@@ -57,6 +58,19 @@ public class Diver extends AnimatedImage{
             setY(0);
         }
 
+        // friction
+        motion.x = (Math.abs(motion.x) - friction) * Math.signum(motion.x);
+        motion.y = (Math.abs(motion.y) - friction) * Math.signum(motion.y);
+
+        if (Math.abs(motion.x) < friction) {
+            motion.x = 0;
+        }
+        if (Math.abs(motion.y) < friction) {
+            motion.y = 0;
+        }
+
+//        System.out.println(motion.x);
+
         moveBy(motion.x, motion.y);
     }
 
@@ -73,19 +87,20 @@ public class Diver extends AnimatedImage{
     }
 
     public void moveUp(){
-        motion.y = Y_SPEED;
+        motion.y += Y_SPEED;
+        System.out.println("Moving!");
     }
 
     public void moveDown(){
-        motion.y = -Y_SPEED;
+        motion.y -= Y_SPEED;
     }
 
     public void moveRight(){
-        motion.x = X_SPEED;
+        motion.x += X_SPEED;
     }
 
     public void moveLeft(){
-        motion.x = -X_SPEED;
+        motion.x -= X_SPEED;
     }
 
 

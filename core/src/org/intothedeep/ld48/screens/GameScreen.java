@@ -60,20 +60,11 @@ public class GameScreen extends BaseScreen {
                 gameOverFont.setColor(Color.RED);
                 gameOverFont.setPosition(width / 2, height / 2);
 
-                tryAgainFont = new Font(assets.getTexure("fonts.main"), "Again?");
-                tryAgainFont.setSize(16);
-                tryAgainFont.setAlign(Font.TEXT_ALIGN_CENTER);
-                tryAgainFont.setColor(Color.LIGHT_GRAY);
-                tryAgainFont.setPosition(width / 2,  height / 3);
-
                 finalScoreFont.setVisible(true);
                 finalScoreFont.setPosition(width / 2, height - 200);
                 finalScoreFont.setString("Score " + depth);
 
-
-
                 stage.addActor(gameOverFont);
-                stage.addActor(tryAgainFont);
 
                 break;
         }

@@ -21,6 +21,10 @@ public class Bubble extends AnimatedImage {
     public boolean active;
     private byte width = 20;
     private byte height = 20;
+    private float count = 0;
+
+    private int max_movement = 4;
+    private boolean toggleMovement = true;
 
     private float odds = 0.7f;
 
@@ -32,12 +36,27 @@ public class Bubble extends AnimatedImage {
         setSize(size, size);
         setKeyFrames(getTextureRegions());
         motion.y = Y_SPEED;
+
     }
 
     @Override
     public void act(float delta) {
         if(active){
             super.act(delta);
+
+            if(toggleMovement){
+                motion.x = X_SPEED;
+            }else {
+                motion.x = -X_SPEED;
+            }
+            if(0 == count % max_movement) {
+                toggleMovement = !toggleMovement;
+            }
+
+            count += 0.5f;
+            if(count == 100){
+                count = 0;
+            }
             moveBy(motion.x, motion.y);
         }
 

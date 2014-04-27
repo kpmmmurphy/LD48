@@ -18,30 +18,34 @@ public class Bubble extends AnimatedImage {
     private Vector2 motion;
     private float X_SPEED = 1;
     private float Y_SPEED = 1;
-    public Bubble(BaseScreen screen, float duration){
+    public boolean active;
+
+    public Bubble(BaseScreen screen, float duration) {
         super(duration);
         this.screen = screen;
-        motion = new Vector2(0,0);
-        setPosition(100, 100);
+        active = false;
+        motion = new Vector2(0, 0);
         setKeyFrames(getTextureRegions());
         motion.y = Y_SPEED;
     }
 
     @Override
     public void act(float delta) {
-        super.act(delta);
-
-
-        moveBy(motion.x, motion.y);
+        if(active){
+            super.act(delta);
+            moveBy(motion.x, motion.y);
+        }
 
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
+        if(active){
+            super.draw(batch, parentAlpha);
+        }
     }
 
-    public TextureRegion[] getTextureRegions(){
+    public TextureRegion[] getTextureRegions() {
         ArrayList<TextureRegion> textureRegions = new ArrayList();
         textureRegions.add(new TextureRegion(screen.getAssets().getTexure("bubble.one")));
         textureRegions.add(new TextureRegion(screen.getAssets().getTexure("bubble.two")));

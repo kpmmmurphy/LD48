@@ -9,6 +9,7 @@ import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.Font;
+import org.intothedeep.ld48.generators.BubbleGenerator;
 
 
 /**
@@ -76,6 +77,9 @@ public class GameScreen extends BaseScreen {
                 depth++;
             }
         }, 0, 1);
+
+       BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
+
     }
 
     @Override

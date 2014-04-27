@@ -16,7 +16,9 @@ import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.Font;
 import org.intothedeep.ld48.generators.BubbleGenerator;
+
 import org.intothedeep.ld48.generators.FishGenerator;
+
 import org.intothedeep.ld48.generators.SeaweedGenerator;
 
 
@@ -87,10 +89,10 @@ public class GameScreen extends BaseScreen {
                 break;
         }
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         //shapeRenderer.setColor(0, 0, 0, depth / 1000);
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shapeRenderer.end();
+        //shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        //shapeRenderer.end();
 
         Batch batch = stage.getSpriteBatch();
         batch.begin();
@@ -142,6 +144,17 @@ public class GameScreen extends BaseScreen {
 
         fishGenerator = new FishGenerator(this);
         stage.addActor(fishGenerator);
+//        Timer.schedule(new Timer.Task() {
+//            @Override
+//            public void run() {
+//                if(currentState == State.RUNNING){
+//                    depth++;
+//                    diver.decreaseOxygen();
+//                }
+//            }
+//        }, 0, 1);
+
+        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
         SeaweedGenerator seaweedGen = new SeaweedGenerator(this, stage);
         foreground = assets.getTexure("foreground.vignette");
 

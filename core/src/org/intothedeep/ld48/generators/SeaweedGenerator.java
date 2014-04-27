@@ -1,7 +1,7 @@
 package org.intothedeep.ld48.generators;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Timer;
@@ -23,12 +23,15 @@ public class SeaweedGenerator {
         private short SEAWEED_LIMIT = 10;
         private Random random;
         private boolean currentlyTangled = false;
+        private Sound hitSound;
 
         public SeaweedGenerator(final GameScreen screen, Stage stage) {
             this.stage = stage;
             this.screen = screen;
             random = new Random();
             seaweeds = genSeaweed();
+
+            hitSound = screen.getAssets().getSound("hit");
 
             Timer.Task manageSeaweedTask = new Timer.Task() {
                 @Override
@@ -74,11 +77,13 @@ public class SeaweedGenerator {
                         seaweed.toggleActive();
                     }
                     //Colliding with diver
-                    Rectangle rect1 = new Rectangle(seaweed.getX(), seaweed.getY(), seaweed.getWidth(), seaweed.getHeight());
-                    Rectangle diver = screen.getDiver().getBoundingBox();
+                    Rectangle seaweedBounds = seaweed.getBounds();
+                    Rectangle diverBounds = screen.getDiver().getBoundingBox();
 
-                    if(Intersector.overlaps(rect1, diver)){
+                    if(seaweedBounds.overlaps(diverBounds)){
                         currentlyTangled = true;
+                        long soundId = hitSound.play();
+                        hitSound.setVolume(soundId, 0.2f);
                     }
                 }
             }
@@ -93,7 +98,6 @@ public class SeaweedGenerator {
                         seaweed.active = true;
                         int rand_x = random.nextInt(Gdx.graphics.getWidth());
                         seaweed.setPosition(rand_x, 0);
-                        System.out.println("BLOWING BUBBLE, Bitch :P ");
                         stage.addActor(seaweed);
                     }
                 }

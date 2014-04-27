@@ -60,5 +60,7 @@ public class LoadingScreen extends BasicLoadingScreen {
         //THE MUZIKS!!
         loadMusic("theme", "music/theme.wav");
         loadSound("game_over", "music/game_over.wav");
+        loadSound("hit", "music/hit.wav");
+        loadSound("oxygen", "music/oxygen.wav");
     }
 }

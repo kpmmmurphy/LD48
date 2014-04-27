@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
@@ -29,6 +30,7 @@ public class GameScreen extends BaseScreen {
     private State currentState;
     private Font depthFont, oxygenFont, gameOverFont, tryAgainFont, finalScoreFont;
     Music themeMusic, gameOverMusic;
+    private ShapeRenderer shapeRenderer;
 
     private Diver diver;
     private Texture foreground;
@@ -36,12 +38,15 @@ public class GameScreen extends BaseScreen {
     private Timer depthTimer;
     private FishGenerator fishGenerator;
 
+    private float depthAlpha = 0.005f;
+
     public enum State {
         READY, PAUSED, RUNNING, OVER
     }
 
     public GameScreen(Assets assets, int WIDTH, int HEIGHT) {
         super(assets, WIDTH, HEIGHT);
+        shapeRenderer = new ShapeRenderer();
     }
 
     @Override
@@ -79,6 +84,12 @@ public class GameScreen extends BaseScreen {
 
                 break;
         }
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        //shapeRenderer.setColor(0, 0, 0, depth / 1000);
+        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shapeRenderer.end();
+
         Batch batch = stage.getSpriteBatch();
         batch.begin();
         batch.draw(foreground, 0, 0);
@@ -135,11 +146,6 @@ public class GameScreen extends BaseScreen {
         themeMusic.setVolume(0.1f);
         themeMusic.setLooping(true);
         themeMusic.play();
-
-
-
-
-
     }
 
     @Override

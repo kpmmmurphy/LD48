@@ -1,5 +1,6 @@
 package org.intothedeep.ld48.generators;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.intothedeep.ld48.entities.Diver;
@@ -7,7 +8,6 @@ import org.intothedeep.ld48.entities.Fish;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.util.CommonMath;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -17,12 +17,14 @@ import java.util.LinkedList;
 public class FishGenerator extends Actor {
     private BaseScreen screen;
     private LinkedList<Fish> fishes;
+    private Sound hitSound;
 
     public FishGenerator(BaseScreen screen) {
         setVisible(false);
 
         this.screen = screen;
         fishes = new LinkedList<Fish>();
+        hitSound = screen.getAssets().getSound("hit");
     }
 
     @Override

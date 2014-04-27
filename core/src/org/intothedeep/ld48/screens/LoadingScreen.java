@@ -49,7 +49,16 @@ public class LoadingScreen extends BasicLoadingScreen {
         loadTexture("bubble.one", "items/bubble.png");
         loadTexture("bubble.two", "items/bubble_2.png");
 
+        //SEAWEED
+        loadTexture("seaweed.one", "items/seaweed_1.png");
+        loadTexture("seaweed.two", "items/seaweed_2.png");
+        loadTexture("seaweed.three", "items/seaweed_3.png");
+
         //FONTS
         loadTexture("fonts.main", "fonts/retro.png");
+
+        //THE MUZIKS!!
+        loadMusic("theme", "music/theme.wav");
+        loadSound("game_over", "music/game_over.wav");
     }
 }

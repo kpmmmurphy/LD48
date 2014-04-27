@@ -2,6 +2,8 @@ package org.intothedeep.ld48.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -14,6 +16,7 @@ import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.Font;
 import org.intothedeep.ld48.generators.BubbleGenerator;
 import org.intothedeep.ld48.generators.FishGenerator;
+import org.intothedeep.ld48.generators.SeaweedGenerator;
 
 
 /**
@@ -25,6 +28,7 @@ public class GameScreen extends BaseScreen {
 
     private State currentState;
     private Font depthFont, oxygenFont, gameOverFont, tryAgainFont, finalScoreFont;
+    Music themeMusic, gameOverMusic;
 
     private Diver diver;
     private Texture foreground;
@@ -54,11 +58,15 @@ public class GameScreen extends BaseScreen {
                 oxygenFont.setString("oxygen " + diver.getOxygenString());
                 if(diver.getOxygen() <= 0){
                     currentState = State.OVER;
+                    Sound game_over = assets.getSound("game_over");
+                    game_over.play();
                 }
                 bubbleGen.manageBubbles();
                 fishGenerator.checkCollisions(diver);
                 break;
             case OVER:
+                themeMusic.stop();
+
                 gameOverFont = new Font(assets.getTexure("fonts.main"), "Game Over");
                 gameOverFont.setSize(24);
                 gameOverFont.setAlign(Font.TEXT_ALIGN_CENTER);
@@ -123,7 +131,18 @@ public class GameScreen extends BaseScreen {
 
         fishGenerator = new FishGenerator(this);
         stage.addActor(fishGenerator);
+        SeaweedGenerator seaweedGen = new SeaweedGenerator(this, stage);
         foreground = assets.getTexure("foreground.vignette");
+
+        themeMusic = assets.getMusic("theme");
+        themeMusic.setVolume(0.1f);
+        themeMusic.setLooping(true);
+        themeMusic.play();
+
+
+
+
+
     }
 
     @Override

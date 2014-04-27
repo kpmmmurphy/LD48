@@ -32,6 +32,7 @@ public class LoadingScreen extends BasicLoadingScreen {
     public void load() {
         //BACKGROUND
         loadTexture("background.main", "background/polygon_back.png");
+        loadTexture("foreground.vignette", "background/vignette.png");
 
         //DIVER
         loadTexture("diver.one",   "diver/diver_1.png");

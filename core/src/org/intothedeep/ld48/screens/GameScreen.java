@@ -2,6 +2,9 @@ package org.intothedeep.ld48.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
@@ -23,6 +26,7 @@ public class GameScreen extends BaseScreen {
     private Font depthFont, oxygenFont;
 
     private Diver diver;
+    private Texture foreground;
 
     public enum State {
         READY, PAUSED, RUNNING, OVER
@@ -50,6 +54,10 @@ public class GameScreen extends BaseScreen {
             case OVER:
                 break;
         }
+        Batch batch = stage.getSpriteBatch();
+        batch.begin();
+        batch.draw(foreground, 0, 0);
+        batch.end();
     }
 
     @Override
@@ -81,7 +89,8 @@ public class GameScreen extends BaseScreen {
             }
         }, 0, 1);
 
-       BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
+        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
+        foreground = assets.getTexure("foreground.vignette");
     }
 
     @Override

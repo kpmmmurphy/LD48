@@ -46,10 +46,16 @@ public class Font extends Actor {
     private void createMap() {
         int asciiStart = 65;
         int asciiLowerStart = 97;
-        for (int i = 0; i < 26; i += 1) {
+        // alphabet
+        for (int i = 0; i < 26; i++) {
             TextureRegion glyph = new TextureRegion(texture, (i % 13) * 8, (i / 13) * 8, 8, 8);
             imageMap.put(asciiStart + i, glyph);
             imageMap.put(asciiLowerStart + i, glyph);
+        }
+        // numbers
+        for (int i = 0; i < 10; i++) {
+            TextureRegion glyph = new TextureRegion(texture, (i % 13) * 8, 16 + (i / 13) * 8, 8, 8);
+            imageMap.put(48 + i, glyph);
         }
     }
 
@@ -77,5 +83,9 @@ public class Font extends Actor {
 
     public void setSpacing(int spacing) {
         this.spacing = spacing;
+    }
+
+    public void setString(String string) {
+        glyphs = getGlyphs(string);
     }
 }

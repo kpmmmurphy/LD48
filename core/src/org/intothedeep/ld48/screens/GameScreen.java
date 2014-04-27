@@ -1,6 +1,7 @@
 package org.intothedeep.ld48.screens;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
 import org.intothedeep.ld48.entities.Bubble;
@@ -12,10 +13,13 @@ import org.intothedeep.ld48.framework.Font;
 
 /**
  * Created by aidan on 26/04/14.
+ *
  */
 public class GameScreen extends BaseScreen {
+    private int depth;
+
     private State currentState;
-    private Font font;
+    private Font depthFont;
 
     private Diver diver;
 
@@ -25,7 +29,7 @@ public class GameScreen extends BaseScreen {
 
     public GameScreen(Assets assets, int WIDTH, int HEIGHT) {
         super(assets, WIDTH, HEIGHT);
-        currentState = State.READY;
+        currentState = State.RUNNING;
     }
 
     @Override
@@ -33,72 +37,45 @@ public class GameScreen extends BaseScreen {
         super.render(delta);
         switch (currentState) {
             case READY:
-                updateReady();
-                presentReady();
                 break;
             case PAUSED:
-                updatePaused();
-                presentPaused();
                 break;
             case RUNNING:
-                updateRunning();
-                presentRunning();
+//                updateRunning();
+//                presentRunning();
+                depthFont.setString("depth " + depth);
                 break;
             case OVER:
-                updateOver();
-                presentOver();
                 break;
         }
-    }
-
-    public void updateReady() {
-
-    }
-
-    public void updatePaused() {
-
-    }
-
-    public void updateRunning() {
-
-    }
-
-    public void updateOver() {
-
-    }
-
-    public void presentReady() {
-
-    }
-
-    public void presentPaused() {
-
-    }
-
-    public void presentRunning() {
-
-    }
-
-    public void presentOver() {
-
     }
 
     @Override
     public void show() {
         super.show();
-
         stage.clear();
+
+        depth = 0;
+
         stage.addActor(new Background(this));
 
-        font = new Font(assets.getTexure("fonts.main"), "Hello World");
-        font.setPosition(10, 10);
-        stage.addActor(font);
+        depthFont = new Font(assets.getTexure("fonts.main"), "depth " + depth);
+        depthFont.setPosition(10, 10);
+        stage.addActor(depthFont);
 
         diver = new Diver(this, 60);
         stage.addActor(diver);
 
         Bubble bubble = new Bubble(this, 60);
         stage.addActor(bubble);
+
+        // increase the depth every second
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                depth++;
+            }
+        }, 0, 1);
     }
 
     @Override

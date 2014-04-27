@@ -59,7 +59,6 @@ public abstract class AnimatedImage extends Image {
         if (keyFrames.length == 0) return;
 
         TextureRegion currentRegion = keyFrames[currentFrame];
-        setSize(currentRegion.getRegionWidth(), currentRegion.getRegionHeight());
 
         batch.draw(currentRegion, getX(), getY(), getOriginX(), getOriginY(),
                 getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());

@@ -21,9 +21,13 @@ public class Diver extends AnimatedImage{
     private float X_SPEED = 2;
     private float Y_SPEED = 2;
 
+    private int width = 64;
+    private int height = 96;
+
     public Diver(BaseScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
         this.screen = screen;
+        setSize(width, height);
         motion = new Vector2(0,0);
         tilt = new Vector2(0,0);
         setPosition(100, 100);

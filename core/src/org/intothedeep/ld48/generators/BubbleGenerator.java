@@ -29,15 +29,6 @@ public class BubbleGenerator {
         random = new Random();
         bubbles = genBubbles();
 
-        Timer.Task manageBubbleTask = new Timer.Task() {
-            @Override
-            public void run() {
-                if(screen.getCurrentState() == GameScreen.State.RUNNING){
-                    manageBubbles();
-                }
-            }
-        };
-
         Timer.Task blowBubbleTask = new Timer.Task(){
             @Override
             public void run() {
@@ -46,7 +37,6 @@ public class BubbleGenerator {
             }
         };
         Timer.schedule(blowBubbleTask, 0, 1);
-        Timer.schedule(manageBubbleTask, 0, 1);
 
     }
 

@@ -61,6 +61,7 @@ public class GameScreen extends BaseScreen {
                     Sound game_over = assets.getSound("game_over");
                     game_over.play();
                 }
+                bubbleGen.setDepth(depth);
                 bubbleGen.manageBubbles();
                 fishGenerator.checkCollisions(diver);
                 break;
@@ -138,11 +139,6 @@ public class GameScreen extends BaseScreen {
         themeMusic.setVolume(0.1f);
         themeMusic.setLooping(true);
         themeMusic.play();
-
-
-
-
-
     }
 
     @Override

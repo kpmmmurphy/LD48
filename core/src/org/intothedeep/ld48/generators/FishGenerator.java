@@ -7,7 +7,6 @@ import org.intothedeep.ld48.entities.Fish;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.util.CommonMath;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
@@ -59,7 +58,7 @@ public class FishGenerator extends Actor {
             fish.setX(screen.getWidth() + 100);
             fish.setDirection(Fish.DIRECTION_LEFT);
         }
-        fish.setY(CommonMath.randomInRange(- screen.getHeight() / 2, screen.getHeight() / 2));
+        fish.setY(CommonMath.randomInRange(-screen.getHeight() / 2, screen.getHeight() / 2));
     }
 
     public void checkCollisions(Diver diver) {

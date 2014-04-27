@@ -36,7 +36,6 @@ public class Bubble extends AnimatedImage {
         setSize(size, size);
         setKeyFrames(getTextureRegions());
         motion.y = Y_SPEED;
-
     }
 
     @Override
@@ -96,5 +95,9 @@ public class Bubble extends AnimatedImage {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void setSpeed(float speed) {
+        motion.y = speed;
     }
 }

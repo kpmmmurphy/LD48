@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Timer;
 
 import org.intothedeep.ld48.entities.Background;
 import org.intothedeep.ld48.entities.Diver;
-import org.intothedeep.ld48.entities.Fish;
 import org.intothedeep.ld48.framework.Assets;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.Font;
@@ -31,6 +30,7 @@ public class GameScreen extends BaseScreen {
     private Texture foreground;
 
     private Timer depthTimer;
+    private FishGenerator fishGenerator;
 
     public enum State {
         READY, PAUSED, RUNNING, OVER
@@ -54,6 +54,7 @@ public class GameScreen extends BaseScreen {
                 if(diver.getOxygen() <= 0){
                     currentState = State.OVER;
                 }
+                fishGenerator.checkCollisions(diver);
                 break;
             case OVER:
                 gameOverFont = new Font(assets.getTexure("fonts.main"), "Game Over");
@@ -116,7 +117,9 @@ public class GameScreen extends BaseScreen {
         depthTimer.start();
 
         BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
-        stage.addActor(new FishGenerator(this));
+
+        fishGenerator = new FishGenerator(this);
+        stage.addActor(fishGenerator);
         foreground = assets.getTexure("foreground.vignette");
     }
 

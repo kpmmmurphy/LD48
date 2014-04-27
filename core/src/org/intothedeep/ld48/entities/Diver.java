@@ -34,6 +34,10 @@ public class Diver extends AnimatedImage{
     private int oxygen = 100;
     private int decreaseRate = 3;
 
+    private boolean invinsible;
+    private int recoveryTime;
+    private int flashing;
+
     public Diver(Stage stage, GameScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
         this.stage = stage;
@@ -46,6 +50,9 @@ public class Diver extends AnimatedImage{
         setKeyFrames(getTextureRegions());
         random = new Random();
 
+        recoveryTime = 1;
+        invinsible = false;
+        flashing = 0;
 
         Timer.Task releaseBubbleTask = new Timer.Task(){
 
@@ -80,8 +87,15 @@ public class Diver extends AnimatedImage{
             moveBy(0, -(Y_SPEED * Y_SPEED));
         }
 
-
-
+        if (invinsible) {
+            flashing++;
+            if (flashing > 5) {
+                flashing = 0;
+                setVisible(!isVisible());
+            }
+        } else {
+            flashing = 0;
+        }
     }
 
     public TextureRegion[] getTextureRegions(){
@@ -150,6 +164,24 @@ public class Diver extends AnimatedImage{
 
     public void decreaseOxygen() {
         oxygen -= decreaseRate;
+    }
+
+    public void decreaseOxygen(int decreaseAmount) {
+        oxygen -= decreaseAmount;
+    }
+
+    public void hit(int amount) {
+        if (!invinsible) {
+            decreaseOxygen(amount);
+            invinsible = true;
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    invinsible = false;
+                    setVisible(true);
+                }
+            }, recoveryTime);
+        }
     }
 
     public void setDecreaseRate(int decreaseRate) {

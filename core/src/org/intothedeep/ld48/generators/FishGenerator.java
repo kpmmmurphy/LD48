@@ -1,13 +1,14 @@
 package org.intothedeep.ld48.generators;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import org.intothedeep.ld48.entities.Diver;
 import org.intothedeep.ld48.entities.Fish;
 import org.intothedeep.ld48.framework.BaseScreen;
 import org.intothedeep.ld48.framework.util.CommonMath;
 
-import sun.util.calendar.BaseCalendar;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 /**
  * Created by aidan on 27/04/14.
@@ -15,11 +16,13 @@ import sun.util.calendar.BaseCalendar;
  */
 public class FishGenerator extends Actor {
     private BaseScreen screen;
+    private LinkedList<Fish> fishes;
 
     public FishGenerator(BaseScreen screen) {
         setVisible(false);
 
         this.screen = screen;
+        fishes = new LinkedList<Fish>();
     }
 
     @Override
@@ -31,11 +34,21 @@ public class FishGenerator extends Actor {
         if (chance <= 1/60.0f) {
             createFish();
         }
-
     }
 
     public void createFish() {
-        Fish fish = new Fish(screen);
+        Fish fish = null;
+        for (Fish fsh : fishes) {
+            if (fsh.isDead()) {
+                fish = fsh;
+                fish.setDead(false);
+                break;
+            }
+        }
+        if (fish == null) {
+            fish = new Fish(screen);
+            this.fishes.add(fish);
+        }
         screen.getStage().addActor(fish);
 
         boolean direction = CommonMath.getRandomInstance().nextBoolean();
@@ -47,5 +60,13 @@ public class FishGenerator extends Actor {
             fish.setDirection(Fish.DIRECTION_LEFT);
         }
         fish.setY(CommonMath.randomInRange(- screen.getHeight() / 2, screen.getHeight() / 2));
+    }
+
+    public void checkCollisions(Diver diver) {
+        for (Fish fish : fishes) {
+            if (fish.getBounds().overlaps(diver.getBoundingBox())) {
+                diver.hit(5);
+            }
+        }
     }
 }

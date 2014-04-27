@@ -1,6 +1,7 @@
 package org.intothedeep.ld48.entities;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 import org.intothedeep.ld48.framework.AnimatedImage;
 import org.intothedeep.ld48.framework.BaseScreen;
@@ -19,10 +20,13 @@ public class Fish extends AnimatedImage {
 
     private float xSpeed;
     private BaseScreen screen;
+    private Rectangle bounds;
+    private boolean dead;
 
     public Fish(BaseScreen screen) {
         super(30);
         this.screen = screen;
+        dead = false;
 
         setSize(width, height);
         xSpeed = CommonMath.randomInRange(1, 2);
@@ -34,6 +38,7 @@ public class Fish extends AnimatedImage {
 
         float scale = CommonMath.randomInRange(2, 4);
         setScale(scale);
+        bounds = new Rectangle();
 
         setKeyFrames(regions);
     }
@@ -43,7 +48,8 @@ public class Fish extends AnimatedImage {
                 ? xSpeed
                 : -xSpeed;
         // make the fish face the right way
-        setScaleX(getScaleX() * -Math.signum(xSpeed));
+        float scale = Math.abs(getScaleX());
+        setScaleX(direction ? -scale : scale);
     }
 
     @Override
@@ -54,6 +60,21 @@ public class Fish extends AnimatedImage {
 
         if (getY() > screen.getHeight() + 100) {
             this.remove();
+            dead = true;
         }
+
+        bounds.set(getX(), getY(), getWidth(), getHeight());
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
     }
 }

@@ -1,6 +1,7 @@
 package org.intothedeep.ld48.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -38,6 +39,7 @@ public class Diver extends AnimatedImage{
     private int recoveryTime;
     private int flashing;
     private boolean isTangled = false;
+    private Sound hitSound, oxygenSound;
 
     public Diver(Stage stage, GameScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
@@ -50,6 +52,8 @@ public class Diver extends AnimatedImage{
         setPosition(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         setKeyFrames(getTextureRegions());
         random = new Random();
+        hitSound = screen.getAssets().getSound("hit");
+        oxygenSound =  screen.getAssets().getSound("oxygen");
 
         recoveryTime = 1;
         invinsible = false;
@@ -153,7 +157,8 @@ public class Diver extends AnimatedImage{
     }
 
     public void addOxygen(){
-        System.out.println("Adding Oxygen! ");
+        long o2Dd = oxygenSound.play();
+        oxygenSound.setVolume(o2Dd, 0.2f);
         oxygen += 10;
     }
 
@@ -178,6 +183,8 @@ public class Diver extends AnimatedImage{
         if (!invinsible) {
             decreaseOxygen(amount);
             invinsible = true;
+            long soundId = hitSound.play();
+            hitSound.setVolume(soundId, 0.2f);
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {

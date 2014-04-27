@@ -2,6 +2,7 @@ package org.intothedeep.ld48.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import org.intothedeep.ld48.framework.AnimatedImage;
@@ -28,6 +29,7 @@ public class Seaweed extends AnimatedImage {
     private boolean toggleMovement = true;
 
     private float odds = 0.7f;
+    private Rectangle bounds;
 
     public Seaweed(GameScreen screen, float duration, int size){
         super(duration);
@@ -37,11 +39,13 @@ public class Seaweed extends AnimatedImage {
         motion = new Vector2(0, 0);
         setKeyFrames(getTextureRegions());
         motion.y = Y_SPEED;
+        bounds = new Rectangle();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
+        bounds.set(getX(), getY(), getWidth(), getHeight());
         moveBy(motion.x, motion.y);
     }
 
@@ -74,5 +78,9 @@ public class Seaweed extends AnimatedImage {
 
     public void setOdds(float odds) {
         this.odds = odds;
+    }
+
+    public Rectangle getBounds(){
+        return bounds;
     }
 }

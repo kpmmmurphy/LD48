@@ -39,6 +39,7 @@ public class GameScreen extends BaseScreen {
     private Timer depthTimer;
     private FishGenerator fishGenerator;
     private BubbleGenerator bubbleGen;
+    private SeaweedGenerator seaweedGen;
 
     private Timer.Task updateDepthTask = new Timer.Task() {
         @Override
@@ -159,8 +160,7 @@ public class GameScreen extends BaseScreen {
         fishGenerator = new FishGenerator(this);
         stage.addActor(fishGenerator);
 
-        BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
-        SeaweedGenerator seaweedGen = new SeaweedGenerator(this, stage);
+        seaweedGen = new SeaweedGenerator(this, stage);
         foreground = assets.getTexure("foreground.vignette");
 
         themeMusic = assets.getMusic("theme");

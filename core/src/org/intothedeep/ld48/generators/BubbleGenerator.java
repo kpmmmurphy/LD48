@@ -23,6 +23,8 @@ public class BubbleGenerator {
     private short BUBBLE_LIMIT = 10;
     private Random random;
     private float depth;
+    private Timer.Task blowBubbleTask;
+    private Timer bubbleTimer;
 
     public BubbleGenerator(final GameScreen screen, Stage stage) {
         this.stage = stage;
@@ -31,15 +33,17 @@ public class BubbleGenerator {
         bubbles = genBubbles();
         depth = 0;
 
-        Timer.Task blowBubbleTask = new Timer.Task(){
+        blowBubbleTask = new Timer.Task(){
             @Override
             public void run() {
                 if(screen.getCurrentState() == GameScreen.State.RUNNING)
                 blowBubble();
             }
         };
-        Timer.schedule(blowBubbleTask, 0, 1);
-
+        bubbleTimer = new Timer();
+        bubbleTimer.clear();
+        bubbleTimer.scheduleTask(blowBubbleTask, 0, 1);
+        System.out.println("new bubble generator");
     }
 
     public ArrayList<Bubble> genBubbles(){
@@ -69,7 +73,6 @@ public class BubbleGenerator {
                 Rectangle diver = screen.getDiver().getBoundingBox();
 
                 if(Intersector.overlaps(rect1, diver)){
-                    System.out.println("OUCH!!!!!");
                     bubble.toggleActive();
                     screen.getDiver().addOxygen();
                 }

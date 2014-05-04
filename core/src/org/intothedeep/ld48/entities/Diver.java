@@ -40,6 +40,13 @@ public class Diver extends AnimatedImage{
     private int flashing;
     private boolean isTangled = false;
     private Sound hitSound, oxygenSound;
+    private Timer.Task releaseBubbleTask = new Timer.Task() {
+        @Override
+        public void run() {
+            releaseOxygenBubble();
+        }
+    };
+    private Timer bubbleTimer;
 
     public Diver(Stage stage, GameScreen screen, float spriteShowDuration){
         super(spriteShowDuration);
@@ -58,15 +65,9 @@ public class Diver extends AnimatedImage{
         recoveryTime = 1;
         invinsible = false;
         flashing = 0;
-
-        Timer.Task releaseBubbleTask = new Timer.Task(){
-            @Override
-            public void run() {
-                releaseOxygenBubble();
-            }
-        };
-        Timer.schedule(releaseBubbleTask, 0, 1);
-
+        bubbleTimer = new Timer();
+        bubbleTimer.clear();
+        bubbleTimer.scheduleTask(releaseBubbleTask, 0, 1);
     }
 
     @Override
@@ -207,8 +208,7 @@ public class Diver extends AnimatedImage{
         int randSize = random.nextInt(10 - 5) + 5;
         Bubble bubble = new Bubble(screen, 30, randSize);
         bubble.setPosition(getX(), getTop() - 20);
-//        bubble.toggleActive();
-        bubble.setActive(true);
+        bubble.toggleActive();
         stage.addActor(bubble);
     }
 

@@ -41,6 +41,16 @@ public class GameScreen extends BaseScreen {
     private FishGenerator fishGenerator;
     private BubbleGenerator bubbleGen;
 
+    private Timer.Task updateDepthTask = new Timer.Task() {
+        @Override
+        public void run() {
+            if(currentState == State.RUNNING){
+                depth++;
+                diver.decreaseOxygen();
+            }
+        }
+    };
+
     private float depthAlpha = 0.005f;
 
     public enum State {
@@ -50,6 +60,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(Assets assets, int WIDTH, int HEIGHT) {
         super(assets, WIDTH, HEIGHT);
         shapeRenderer = new ShapeRenderer();
+        depthTimer = new Timer();
     }
 
     @Override
@@ -128,32 +139,14 @@ public class GameScreen extends BaseScreen {
         stage.addActor(finalScoreFont);
 
         // increase the depth every second
-        depthTimer = new Timer();
-        Timer.Task task = new Timer.Task() {
-            @Override
-            public void run() {
-                if(currentState == State.RUNNING){
-                    depth++;
-                    diver.decreaseOxygen();
-                }
-            }
-        };
-        depthTimer.scheduleTask(task, 0, 1);
+        depthTimer.clear();
+        depthTimer.scheduleTask(updateDepthTask, 0, 1);
         depthTimer.start();
 
         bubbleGen = new BubbleGenerator(this, stage);
 
         fishGenerator = new FishGenerator(this);
         stage.addActor(fishGenerator);
-//        Timer.schedule(new Timer.Task() {
-//            @Override
-//            public void run() {
-//                if(currentState == State.RUNNING){
-//                    depth++;
-//                    diver.decreaseOxygen();
-//                }
-//            }
-//        }, 0, 1);
 
         BubbleGenerator bubbleGen = new BubbleGenerator(this, stage);
         SeaweedGenerator seaweedGen = new SeaweedGenerator(this, stage);
